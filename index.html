@@ -49,7 +49,7 @@
     text-decoration: none; cursor: pointer;
   }
   #nav-logo-img {
-    width: 38px; height: 38px; object-fit: contain; border-radius: 6px;
+    width: 30%; height: 30%; object-fit: contain; border-radius: 6px;
     filter: drop-shadow(0 0 8px rgba(168,85,247,0.7));
     transition: transform 0.7s cubic-bezier(.16,1,.3,1), filter .3s;
   }
@@ -463,13 +463,13 @@
 <body>
 
 <!-- FLOATING WHATSAPP -->
-<a href="https://wa.me/5511999999999?text=Olá!+Vi+o+catálogo+da+Rare+Drop+e+quero+fazer+um+pedido!" class="whatsapp-float" target="_blank" rel="noopener" title="WhatsApp">💬</a>
+<a href="https://wa.me/554187048120?text=Olá!+Vi+o+catálogo+da+Rare+Drop+e+quero+fazer+um+pedido!" class="whatsapp-float" target="_blank" rel="noopener" title="WhatsApp">💬</a>
 
 <!-- ══════════ NAVBAR ══════════ -->
 <header id="navbar">
   <a id="nav-logo" href="#hero" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
-    <img id="nav-logo-img" src="logo-hero.png" alt="Rare Drop Logo">
-    <span id="nav-logo-text">Rare Drop</span>
+    <img id="nav-logo-img" src="img/Navbar.png" alt="Rare Drop Logo">
+    <span id="nav-logo-text"></span>
   </a>
   <nav>
     <ul>
@@ -477,7 +477,7 @@
       <li><a href="#features">Sobre</a></li>
       <li><a href="#footer">Contato</a></li>
       <li>
-        <a href="https://wa.me/5511999999999?text=Olá!+Quero+saber+mais+sobre+a+Rare+Drop!" target="_blank" rel="noopener" class="btn-wa-nav">
+        <a href="https://wa.me/554187048120?text=Olá!+Quero+saber+mais+sobre+a+Rare+Drop!" target="_blank" rel="noopener" class="btn-wa-nav">
           💬 WhatsApp
         </a>
       </li>
@@ -502,14 +502,14 @@
 
   <div id="hero-content">
     <div id="hero-logo-wrap">
-      <img id="hero-logo" src="logo-hero.png" alt="Rare Drop 3D Studio">
+      <img id="hero-logo" src="img/Hero.png" alt="Rare Drop 3D Studio">
     </div>
     <span class="hero-badge">✦ Estúdio de Impressão 3D Geek ✦</span>
     <h1 class="hero-title">Sua Ideia<br>em 3D</h1>
     <p class="hero-sub">Games · Decoração · Personalizados · Chaveiros · Brinquedos</p>
     <div class="hero-ctas">
       <a href="#categories" class="btn-primary">🎮 Ver Catálogo</a>
-      <a href="https://wa.me/5511999999999?text=Olá+Rare+Drop!+Quero+fazer+um+pedido+personalizado." target="_blank" rel="noopener" class="btn-secondary">💬 Pedir Agora</a>
+      <a href="https://wa.me/554187048120?text=Olá+Rare+Drop!+Quero+fazer+um+pedido+personalizado." target="_blank" rel="noopener" class="btn-secondary">💬 Pedir Agora</a>
     </div>
   </div>
 
@@ -655,7 +655,7 @@
         <p class="footer-brand-desc">Estúdio de impressão 3D especializado na linha Geek. Transformamos ideias em objetos únicos.</p>
         <div class="social-row">
           <a class="social-btn" href="https://instagram.com/" target="_blank" rel="noopener" title="Instagram">📷</a>
-          <a class="social-btn" href="https://wa.me/5511999999999" target="_blank" rel="noopener" title="WhatsApp">💬</a>
+          <a class="social-btn" href="https://wa.me/554187048120" target="_blank" rel="noopener" title="WhatsApp">💬</a>
           <a class="social-btn" href="https://youtube.com/" target="_blank" rel="noopener" title="YouTube">▶️</a>
           <a class="social-btn" href="https://facebook.com/" target="_blank" rel="noopener" title="Facebook">👤</a>
         </div>
@@ -683,7 +683,7 @@
         <p class="footer-col-title">Contato</p>
         <div class="footer-contact-item">
           <span>💬</span>
-          <a href="https://wa.me/5511999999999" style="color:rgba(240,240,255,.45);text-decoration:none;" target="_blank" rel="noopener">(11) 9 9999-9999</a>
+          <a href="https://wa.me/554187048120" style="color:rgba(240,240,255,.45);text-decoration:none;" target="_blank" rel="noopener">(11) 9 9999-9999</a>
         </div>
         <div class="footer-contact-item">
           <span>📷</span>
@@ -694,7 +694,7 @@
           <a href="https://youtube.com/" style="color:rgba(240,240,255,.45);text-decoration:none;" target="_blank" rel="noopener">Rare Drop Studio</a>
         </div>
         <div class="footer-contact-item"><span>📍</span><span>Brasil</span></div>
-        <a href="https://wa.me/5511999999999?text=Olá!+Quero+fazer+um+pedido+na+Rare+Drop!" target="_blank" rel="noopener"
+        <a href="https://wa.me/554187048120?text=Olá!+Quero+fazer+um+pedido+na+Rare+Drop!" target="_blank" rel="noopener"
            style="display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:rgba(37,211,102,.14);border:.5px solid rgba(37,211,102,.5);color:#25d366;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;letter-spacing:.06em;transition:all .25s;">
           💬 Fale Conosco
         </a>
@@ -776,7 +776,7 @@ const products = {
   ],
 };
 
-const WA_BASE = 'https://wa.me/5511999999999?text=Olá+Rare+Drop!+Quero+encomendar+o+produto+';
+const WA_BASE = 'https://wa.me/554187048120?text=Olá+Rare+Drop!+Quero+encomendar+o+produto+';
 
 function buildGrid(cat) {
   const grid = document.getElementById('grid-' + cat);

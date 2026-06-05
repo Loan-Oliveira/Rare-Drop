@@ -38,11 +38,14 @@
     padding: 0 48px;
     background: transparent;
     transition: background 0.5s ease, box-shadow 0.5s ease;
+    display: none;
   }
   #navbar.scrolled {
     background: rgba(6,6,13,0.88);
     backdrop-filter: blur(20px);
     box-shadow: 0 1px 0 rgba(168,85,247,0.18);
+    display: flex;
+    transition: background 0.5s ease, box-shadow 0.5 ease;
   }
   #nav-logo {
     display: flex; align-items: center; gap: 10px;

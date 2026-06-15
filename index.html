@@ -1487,12 +1487,12 @@ const highlights = [
     cat:    'games', idx: 0
   },
   {
-    title:  'Vídeo: Como imprimimos seus produtos',
-    sub:    'Veja o processo completo de impressão 3D do nosso estúdio.',
+    title:  'Unboxing',
+    sub:    'Luiz Henrique - Vila velha - ES.',
     price:  null,
     badge:  'video',
     type:   'video',
-    src:    'https://www.w3schools.com/html/mov_bbb.mp4',
+    src:    'videos/unboxing/luizhenrique-fantasma.mp4',
   },
   {
     title:  'Dinossauro Articulado Flexi',
@@ -1536,7 +1536,7 @@ const highlights = [
     var mediaInner = '';
     if (h.type === 'video') {
       mediaInner =
-        '<video id="hl-video-' + i + '" src="' + h.src + '" loop muted playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;"></video>' +
+        '<video id="hl-video-' + i + '" src="' + h.src + '" loop  playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;"></video>' +
         '<div class="hl-play-icon" id="hl-play-' + i + '">' +
           '<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">' +
             '<circle cx="40" cy="40" r="39" stroke="rgba(168,85,247,0.6)" stroke-width="1"/>' +

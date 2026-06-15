@@ -652,7 +652,7 @@
   ═══════════════════════════════ */
   #highlights {
     position: relative;
-    padding: 80px 0 90px;
+    padding: 60px 0 70px;
     background:
       radial-gradient(ellipse 90% 60% at 50% 100%, rgba(255,107,157,.08) 0%, transparent 65%),
       radial-gradient(ellipse 60% 50% at 10%  50%, rgba(168,85,247,.07) 0%, transparent 55%),
@@ -661,163 +661,149 @@
   }
   .hl-header {
     text-align: center;
-    margin-bottom: 48px;
+    margin-bottom: 36px;
     padding: 0 40px;
   }
   .hl-header .section-label { justify-content: center; }
   .hl-header .section-label::before { display: none; }
 
-  /* Track wrapper */
-  .hl-viewport {
-    position: relative;
+  /* ── Carousel viewport ── */
+  .hl-outer {
+    padding: 0 48px;
     overflow: hidden;
-    /* peek: show edges of adjacent slides */
-    padding: 0 clamp(24px, 6vw, 120px);
+    position: relative;
+    max-width: 960px;
+    margin: 0 auto;
   }
+
   .hl-track {
     display: flex;
-    gap: 24px;
-    transition: transform .65s cubic-bezier(.16,1,.3,1);
+    gap: 20px;
+    transition: transform .6s cubic-bezier(.16,1,.3,1);
     will-change: transform;
   }
 
-  /* Each slide */
+  /* Each slide: side-by-side media + info */
   .hl-slide {
-    flex: 0 0 clamp(280px, 72vw, 860px);
-    border-radius: 20px;
+    flex: none;
+    border-radius: 16px;
     overflow: hidden;
     position: relative;
     background: #0d0d1a;
-    border: .5px solid rgba(168,85,247,.2);
-    box-shadow: 0 8px 48px rgba(0,0,0,.55);
-    transition: transform .45s cubic-bezier(.16,1,.3,1),
-                box-shadow .45s,
-                border-color .45s,
-                opacity .45s;
+    border: .5px solid rgba(168,85,247,.18);
+    box-shadow: 0 6px 32px rgba(0,0,0,.45);
+    transition: border-color .4s, box-shadow .4s, opacity .4s, transform .4s;
     cursor: pointer;
     user-select: none;
+    display: flex;           /* ← horizontal layout */
+    flex-direction: row;
   }
   .hl-slide.is-active {
-    border-color: rgba(168,85,247,.5);
-    box-shadow: 0 16px 64px rgba(168,85,247,.22), 0 0 0 1px rgba(168,85,247,.12);
+    border-color: rgba(168,85,247,.55);
+    box-shadow: 0 10px 48px rgba(168,85,247,.22), 0 0 0 1px rgba(168,85,247,.12);
   }
   .hl-slide:not(.is-active) {
-    opacity: .55;
-    transform: scale(.94);
+    opacity: .4;
+    transform: scale(.97);
   }
 
-  /* Media area */
+  /* Media — left column, fixed width */
   .hl-media {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    position: relative;
-    overflow: hidden;
+    flex: 0 0 45%;
+    position: relative; overflow: hidden;
     background: #08081a;
+    aspect-ratio: 16 / 9;
+    max-height: 220px;
   }
   .hl-media img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
+    width: 100%; height: 100%; object-fit: cover; display: block;
     transition: transform .6s ease;
   }
   .hl-slide.is-active .hl-media img { transform: scale(1.03); }
   .hl-media video {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
+    width: 100%; height: 100%; object-fit: cover; display: block;
   }
-  /* play icon overlay for video */
   .hl-play-icon {
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    background: rgba(6,6,13,.38);
-    transition: background .3s;
+    background: rgba(6,6,13,.38); transition: background .3s;
   }
   .hl-play-icon svg {
-    width: 60px; height: 60px;
-    filter: drop-shadow(0 0 12px rgba(168,85,247,.7));
+    width: 48px; height: 48px;
+    filter: drop-shadow(0 0 10px rgba(168,85,247,.7));
     transition: transform .3s;
   }
   .hl-slide.is-active .hl-play-icon:hover { background: rgba(6,6,13,.18); }
   .hl-slide.is-active .hl-play-icon:hover svg { transform: scale(1.12); }
-  /* hide play overlay when video is playing */
   .hl-media.playing .hl-play-icon { opacity: 0; pointer-events: none; }
 
-  /* badge top-left */
+  /* Badge */
   .hl-badge {
-    position: absolute; top: 14px; left: 14px; z-index: 2;
-    font-size: 10px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700;
-    padding: 4px 10px; border-radius: 20px;
-    backdrop-filter: blur(8px);
+    position: absolute; top: 10px; left: 10px; z-index: 2;
+    font-size: 10px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700;
+    padding: 3px 9px; border-radius: 20px; backdrop-filter: blur(8px);
   }
   .hl-badge.new     { background: rgba(255,107,157,.2); border: .5px solid rgba(255,107,157,.5); color: var(--pink); }
   .hl-badge.promo   { background: rgba(251,191,36,.18); border: .5px solid rgba(251,191,36,.5);  color: #fbbf24; }
   .hl-badge.video   { background: rgba(6,182,212,.18);  border: .5px solid rgba(6,182,212,.5);   color: var(--cyan); }
   .hl-badge.limited { background: rgba(168,85,247,.18); border: .5px solid rgba(168,85,247,.5);  color: var(--purple); }
 
-  /* info strip */
+  /* Info — right column */
   .hl-info {
-    padding: 22px 26px 24px;
-    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+    flex: 1;
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
   }
-  .hl-info-left { flex: 1; }
+  .hl-info-left { flex: 1; display: flex; flex-direction: column; gap: 8px; }
   .hl-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(13px,2vw,18px); font-weight: 700; letter-spacing: .03em;
-    color: #fff; margin-bottom: 6px; line-height: 1.3;
+    font-size: clamp(13px,1.6vw,17px); font-weight: 700; letter-spacing: .03em;
+    color: #fff; line-height: 1.3;
   }
-  .hl-sub {
-    font-size: 13px; color: var(--muted); line-height: 1.5;
-  }
+  .hl-sub { font-size: 13px; color: var(--muted); line-height: 1.6; }
   .hl-price {
-    font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; white-space: nowrap;
+    font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 700; white-space: nowrap;
     background: linear-gradient(90deg, var(--cyan), var(--purple));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-top: 4px;
   }
 
-  /* gradient edges (peek fade) */
-  .hl-viewport::before,
-  .hl-viewport::after {
-    content: ''; position: absolute; top: 0; bottom: 0; width: clamp(20px,5vw,80px);
-    z-index: 2; pointer-events: none;
-  }
-  .hl-viewport::before { left: 0;  background: linear-gradient(to right, #06060d, transparent); }
-  .hl-viewport::after  { right: 0; background: linear-gradient(to left,  #06060d, transparent); }
-
-  /* nav arrows */
+  /* Arrows */
   .hl-arrows {
     display: flex; align-items: center; justify-content: center;
-    gap: 12px; margin-top: 36px; padding: 0 40px;
+    gap: 12px; margin-top: 22px; padding: 0 40px;
   }
   .hl-arrow {
-    width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+    width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
     background: rgba(168,85,247,.1); border: .5px solid rgba(168,85,247,.35);
-    color: #fff; font-size: 20px;
+    color: #fff; font-size: 18px;
     display: flex; align-items: center; justify-content: center;
-    transition: all .25s ease;
+    transition: all .25s ease; flex-shrink: 0;
   }
   .hl-arrow:hover { background: rgba(168,85,247,.3); border-color: rgba(168,85,247,.7); transform: scale(1.08); }
-  .hl-arrow:disabled { opacity: .25; pointer-events: none; }
 
-  /* dots */
-  .hl-dots {
-    display: flex; align-items: center; gap: 8px; flex: 1; justify-content: center;
-  }
+  /* Dots */
+  .hl-dots { display: flex; align-items: center; gap: 8px; flex: 1; justify-content: center; }
   .hl-dot {
     height: 4px; border-radius: 2px; cursor: pointer;
-    background: rgba(168,85,247,.3);
+    background: rgba(168,85,247,.28); width: 18px;
     transition: all .35s ease;
-    width: 20px;
   }
-  .hl-dot.active { background: var(--purple); width: 36px; }
+  .hl-dot.active { background: var(--purple); width: 32px; }
 
   @media(max-width:768px){
-    #highlights { padding: 60px 0 70px; }
-    .hl-viewport { padding: 0 16px; }
-    .hl-slide { flex: 0 0 88vw; }
-    .hl-info { padding: 16px 18px 18px; flex-direction: column; gap: 8px; }
-    .hl-arrows { margin-top: 24px; }
+    #highlights { padding: 48px 0 56px; }
+    .hl-outer { padding: 0 20px; }
+    .hl-slide { flex-direction: column; }
+    .hl-media { flex: none; width: 100%; max-height: 200px; aspect-ratio: 16/9; }
+    .hl-info { padding: 16px 18px; }
+    .hl-arrows { margin-top: 16px; }
   }
+
+
 
 </style>
 </head>
@@ -899,12 +885,11 @@
     <p class="section-sub" style="margin:0 auto;text-align:center;">Lançamentos, promoções e vídeos exclusivos.</p>
   </div>
 
-  <div class="hl-viewport" id="hl-viewport">
+  <div class="hl-outer" id="hl-outer">
     <div class="hl-track" id="hl-track">
       <!-- slides rendered by JS -->
     </div>
   </div>
-
   <div class="hl-arrows">
     <button class="hl-arrow" id="hl-prev" onclick="hlMove(-1)">&#8592;</button>
     <div class="hl-dots" id="hl-dots"></div>
@@ -1120,6 +1105,37 @@
     </div>
   </div>
 </footer>
+
+
+<!-- ══════════ PRODUCT MODAL ══════════ -->
+<div id="product-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <!-- Carousel -->
+    <div class="modal-carousel">
+      <div class="carousel-track" id="modal-carousel-track"></div>
+      <button class="carousel-btn prev" onclick="goSlide(_carouselIdx - 1)">‹</button>
+      <button class="carousel-btn next" onclick="goSlide(_carouselIdx + 1)">›</button>
+      <div class="carousel-dots" id="modal-dots"></div>
+    </div>
+
+    <!-- Info -->
+    <div class="modal-info">
+      <div class="modal-cat-tag" id="modal-cat-tag"></div>
+      <div class="modal-name"    id="modal-name"></div>
+      <div class="modal-price"   id="modal-price"></div>
+      <div class="modal-divider"></div>
+      <div class="modal-desc-wrap"><p class="modal-desc" id="modal-desc"></p></div>
+      <div class="modal-details" id="modal-details"></div>
+      <a   class="btn-order-modal" id="modal-wa-btn" href="#" target="_blank" rel="noopener">
+        💬 Pedir no WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+
 
 <script>
 
@@ -1443,8 +1459,11 @@ document.addEventListener('keydown', e => {
 });
 
 /* Close modal on backdrop click */
-document.getElementById('product-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
+document.addEventListener('DOMContentLoaded', function() {
+  const pm = document.getElementById('product-modal');
+  if (pm) pm.addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
 });
 
 
@@ -1461,7 +1480,7 @@ const highlights = [
   {
     title:  'Porta Fantasma – Destiny',
     sub:    'Nosso produto mais pedido. Impresso em PLA com acabamento premium.',
-    price:  'R$ 89,90',
+    price:  'R$ 179,90',
     badge:  'new',
     type:   'image',
     src:    'catalog/games/fantasma/fantasma1.png',
@@ -1499,175 +1518,159 @@ const highlights = [
 (function buildHighlights() {
   const track = document.getElementById('hl-track');
   const dots  = document.getElementById('hl-dots');
+  if (!track || !dots) return;
 
-  highlights.forEach((h, i) => {
-    /* slide */
+  highlights.forEach(function(h, i) {
+    /* ── slide ── */
     const slide = document.createElement('div');
     slide.className = 'hl-slide' + (i === 0 ? ' is-active' : '');
-    slide.dataset.idx = i;
 
     /* badge */
-    const badgeHtml = h.badge
-      ? `<div class="hl-badge ${h.badge}">${h.badge === 'new' ? '✦ Novo' : h.badge === 'promo' ? '🔥 Promo' : h.badge === 'video' ? '▶ Vídeo' : '⚡ Limitado'}</div>`
-      : '';
+    var badgeHtml = '';
+    if (h.badge) {
+      var label = h.badge === 'new' ? '✦ Novo' : h.badge === 'promo' ? '🔥 Promo' : h.badge === 'video' ? '▶ Vídeo' : '⚡ Limitado';
+      badgeHtml = '<div class="hl-badge ' + h.badge + '">' + label + '</div>';
+    }
 
     /* media */
-    let mediaInner = '';
+    var mediaInner = '';
     if (h.type === 'video') {
-      mediaInner = `
-        <video id="hl-video-${i}" src="${h.src}" loop muted playsinline preload="none"
-               style="width:100%;height:100%;object-fit:cover;display:block;"></video>
-        <div class="hl-play-icon" id="hl-play-${i}">
-          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="40" cy="40" r="39" stroke="rgba(168,85,247,0.6)" stroke-width="1"/>
-            <path d="M32 26l22 14-22 14V26z" fill="white"/>
-          </svg>
-        </div>`;
+      mediaInner =
+        '<video id="hl-video-' + i + '" src="' + h.src + '" loop muted playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;"></video>' +
+        '<div class="hl-play-icon" id="hl-play-' + i + '">' +
+          '<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+            '<circle cx="40" cy="40" r="39" stroke="rgba(168,85,247,0.6)" stroke-width="1"/>' +
+            '<path d="M32 26l22 14-22 14V26z" fill="white"/>' +
+          '</svg>' +
+        '</div>';
     } else {
-      const imgSrc = h.src || '';
-      const imgTag = imgSrc
-        ? `<img src="${imgSrc}" alt="${h.title}" loading="lazy"
-               onerror="this.parentElement.innerHTML='<div style=\"width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;opacity:.25;\">📦</div>'">`
-        : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;opacity:.2;">📦</div>`;
-      mediaInner = imgTag;
+      if (h.src) {
+        var img = document.createElement('img');
+        img.src     = h.src;
+        img.alt     = h.title;
+        img.loading = 'lazy';
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+        img.onerror = function() {
+          this.parentElement.innerHTML = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;opacity:.2;">📦</div>';
+        };
+        var tmpDiv = document.createElement('div');
+        tmpDiv.appendChild(img);
+        mediaInner = tmpDiv.innerHTML;
+      } else {
+        mediaInner = '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;opacity:.2;">📦</div>';
+      }
     }
 
     /* price */
-    const priceHtml = h.price ? `<div class="hl-price">${h.price}</div>` : '';
+    var priceHtml = h.price ? '<div class="hl-price">' + h.price + '</div>' : '';
 
-    slide.innerHTML = `
-      <div class="hl-media" id="hl-media-${i}">
-        ${badgeHtml}
-        ${mediaInner}
-      </div>
-      <div class="hl-info">
-        <div class="hl-info-left">
-          <div class="hl-title">${h.title}</div>
-          <div class="hl-sub">${h.sub}</div>
-        </div>
-        ${priceHtml}
-      </div>`;
+    slide.innerHTML =
+      '<div class="hl-media" id="hl-media-' + i + '">' + badgeHtml + mediaInner + '</div>' +
+      '<div class="hl-info">' +
+        '<div class="hl-info-left">' +
+          '<div class="hl-title">' + h.title + '</div>' +
+          '<div class="hl-sub">' + h.sub + '</div>' +
+        '</div>' +
+        priceHtml +
+      '</div>';
 
-    /* click: video toggle or open product */
-    slide.addEventListener('click', () => {
-      if (_hlIdx !== i) { hlGoTo(i); return; }
-      if (h.type === 'video') {
-        const vid   = document.getElementById('hl-video-' + i);
-        const media = document.getElementById('hl-media-' + i);
-        if (vid.paused) { vid.play(); media.classList.add('playing'); }
-        else            { vid.pause(); media.classList.remove('playing'); }
-      } else if (h.cat !== undefined && h.idx !== undefined) {
-        openCatalog(h.cat);
-        setTimeout(() => openModal(h.cat, h.idx), 80);
-      }
-    });
+    /* click handler */
+    slide.addEventListener('click', (function(h, i) {
+      return function() {
+        if (_hlIdx !== i) { hlGoTo(i); return; }
+        if (h.type === 'video') {
+          var vid   = document.getElementById('hl-video-' + i);
+          var media = document.getElementById('hl-media-' + i);
+          if (vid) {
+            if (vid.paused) { vid.play(); if (media) media.classList.add('playing'); }
+            else            { vid.pause(); if (media) media.classList.remove('playing'); }
+          }
+        } else if (h.cat !== undefined && h.idx !== undefined) {
+          openCatalog(h.cat);
+          setTimeout(function() { openModal(h.cat, h.idx); }, 120);
+        }
+      };
+    })(h, i));
 
     track.appendChild(slide);
 
     /* dot */
-    const dot = document.createElement('div');
+    var dot = document.createElement('div');
     dot.className = 'hl-dot' + (i === 0 ? ' active' : '');
-    dot.onclick = () => hlGoTo(i);
+    dot.addEventListener('click', (function(i) { return function() { hlGoTo(i); }; })(i));
     dots.appendChild(dot);
   });
 
-  hlUpdateLayout();
+  hlSizeSlides();
+  hlRefreshTrack();
 })();
 
-let _hlIdx = 0;
-let _hlAutoplay = null;
+var _hlIdx = 0;
+
+/* Set every slide's width = outer inner width */
+function hlSizeSlides() {
+  var outer  = document.getElementById('hl-outer');
+  var slides = document.querySelectorAll('.hl-slide');
+  if (!outer || !slides.length) return;
+  var w = outer.clientWidth - 96; /* subtract padding (48px * 2) */
+  slides.forEach(function(s) { s.style.width = w + 'px'; });
+}
+
+function hlRefreshTrack() {
+  var track  = document.getElementById('hl-track');
+  var slides = document.querySelectorAll('.hl-slide');
+  if (!slides.length || !track) return;
+  var gap    = 20;
+  var slideW = slides[0].offsetWidth;
+  track.style.transform = 'translateX(' + (-_hlIdx * (slideW + gap)) + 'px)';
+}
 
 function hlGoTo(n) {
   /* pause any playing video */
-  const prevH = highlights[_hlIdx];
+  var prevH = highlights[_hlIdx];
   if (prevH && prevH.type === 'video') {
-    const vid = document.getElementById('hl-video-' + _hlIdx);
-    const med = document.getElementById('hl-media-' + _hlIdx);
-    if (vid) { vid.pause(); med && med.classList.remove('playing'); }
+    var vid = document.getElementById('hl-video-' + _hlIdx);
+    var med = document.getElementById('hl-media-' + _hlIdx);
+    if (vid) { vid.pause(); if (med) med.classList.remove('playing'); }
   }
 
   _hlIdx = (n + highlights.length) % highlights.length;
 
-  document.querySelectorAll('.hl-slide').forEach((s, i) => {
+  document.querySelectorAll('.hl-slide').forEach(function(s, i) {
     s.classList.toggle('is-active', i === _hlIdx);
   });
-  document.querySelectorAll('.hl-dot').forEach((d, i) => {
+  document.querySelectorAll('.hl-dot').forEach(function(d, i) {
     d.classList.toggle('active', i === _hlIdx);
   });
 
-  hlUpdateLayout();
-  hlResetAutoplay();
+  hlRefreshTrack();
 }
 
 function hlMove(dir) { hlGoTo(_hlIdx + dir); }
 
-function hlUpdateLayout() {
-  const track    = document.getElementById('hl-track');
-  const viewport = document.getElementById('hl-viewport');
-  const slides   = document.querySelectorAll('.hl-slide');
-  if (!slides.length) return;
+window.addEventListener('resize', function() {
+  hlSizeSlides();
+  hlRefreshTrack();
+});
 
-  const slideW = slides[0].offsetWidth;
-  const gap    = 24;
-  const vw     = viewport.offsetWidth;
-  const pad    = parseFloat(getComputedStyle(viewport).paddingLeft) || 0;
-
-  /* center active slide within the padded viewport */
-  const offset = pad + _hlIdx * (slideW + gap) - (vw - 2 * pad - slideW) / 2;
-  track.style.transform = `translateX(${-Math.max(0, offset)}px)`;
-}
-
-function hlResetAutoplay() {
-  clearInterval(_hlAutoplay);
-  _hlAutoplay = setInterval(() => hlMove(1), 5000);
-}
-
-hlResetAutoplay();
-window.addEventListener('resize', hlUpdateLayout);
-
-/* Touch/swipe support */
 (function() {
-  const vp = document.getElementById('hl-viewport');
-  let startX = 0, dragging = false;
-  vp.addEventListener('pointerdown', e => { startX = e.clientX; dragging = true; });
-  vp.addEventListener('pointermove', e => { if (!dragging) return; });
-  vp.addEventListener('pointerup',   e => {
+  var vp = document.getElementById('hl-outer');
+  if (!vp) return;
+  var startX = 0, dragging = false;
+  vp.addEventListener('pointerdown', function(e) {
+    startX = e.clientX; dragging = true;
+  });
+  vp.addEventListener('pointerup', function(e) {
     if (!dragging) return; dragging = false;
-    const dx = e.clientX - startX;
+    var dx = e.clientX - startX;
     if (Math.abs(dx) > 40) hlMove(dx < 0 ? 1 : -1);
   });
-  vp.addEventListener('pointercancel', () => { dragging = false; });
+  vp.addEventListener('pointercancel', function() { dragging = false; });
 })();
 
+
+
 </script>
-
-<!-- ══════════ PRODUCT MODAL ══════════ -->
-<div id="product-modal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-
-    <!-- Carousel -->
-    <div class="modal-carousel">
-      <div class="carousel-track" id="modal-carousel-track"></div>
-      <button class="carousel-btn prev" onclick="goSlide(_carouselIdx - 1)">‹</button>
-      <button class="carousel-btn next" onclick="goSlide(_carouselIdx + 1)">›</button>
-      <div class="carousel-dots" id="modal-dots"></div>
-    </div>
-
-    <!-- Info -->
-    <div class="modal-info">
-      <div class="modal-cat-tag" id="modal-cat-tag"></div>
-      <div class="modal-name"    id="modal-name"></div>
-      <div class="modal-price"   id="modal-price"></div>
-      <div class="modal-divider"></div>
-      <div class="modal-desc-wrap"><p class="modal-desc" id="modal-desc"></p></div>
-      <div class="modal-details" id="modal-details"></div>
-      <a   class="btn-order-modal" id="modal-wa-btn" href="#" target="_blank" rel="noopener">
-        💬 Pedir no WhatsApp
-      </a>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>

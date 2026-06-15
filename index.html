@@ -40,24 +40,25 @@
     padding: 0 48px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-20px);
+    transform: translateY(-12px);
+    pointer-events: none;
 
     transition:
-      opacity 0.5s ease,
-      transform 0.5s ease,
-      background 0.5s ease,
-      box-shadow 0.5s ease;
+      opacity 0.4s ease,
+      visibility 0.4s ease,
+      transform 0.4s ease,
+      background 0.4s ease,
+      box-shadow 0.4s ease;
   }
 
   #navbar.scrolled {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-
+    pointer-events: all;
     background: rgba(6,6,13,0.88);
     backdrop-filter: blur(10px);
     box-shadow: 0 1px 0 rgba(168,85,247,0.18);
-    opacity: 80%;
   }
 
   #nav-logo {
@@ -374,8 +375,9 @@
   }
   .footer-copy { font-size: 12px; color: rgba(240,240,255,.3); }
 
+
   /* ═══════════════════════════════
-     CATALOG OVERLAY PAGES
+     CATALOG OVERLAY PAGES (v2)
   ═══════════════════════════════ */
   .catalog-page {
     display: none; position: fixed; inset: 0; z-index: 300;
@@ -383,9 +385,11 @@
       radial-gradient(ellipse 80% 50% at 50% 0%, rgba(168,85,247,.12) 0%, transparent 55%),
       #06060d;
     overflow-y: auto; padding: 80px 48px 80px;
+  }
+  .catalog-page.active {
+    display: block;
     animation: catIn .4s cubic-bezier(.16,1,.3,1);
   }
-  .catalog-page.active { display: block; }
   @keyframes catIn {
     from { opacity: 0; transform: translateY(36px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -408,60 +412,187 @@
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
   .catalog-grid-wrap { max-width: 1200px; margin: 0 auto; }
-  .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(230px,1fr)); gap: 22px; }
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 22px;
+  }
+
+  /* ── Product Card (image-based) ── */
   .product-card {
-    background: rgba(255,255,255,.03); border: .5px solid rgba(168,85,247,.2);
-    border-radius: 16px; overflow: hidden; transition: all .3s ease;
+    background: rgba(255,255,255,.03); border: .5px solid rgba(168,85,247,.22);
+    border-radius: 16px; overflow: hidden; cursor: pointer;
+    transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s, border-color .3s;
+    display: flex; flex-direction: column;
   }
-  .product-card:hover { transform: translateY(-4px); border-color: rgba(168,85,247,.5); box-shadow: 0 8px 32px rgba(168,85,247,.18); }
+  .product-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(168,85,247,.55);
+    box-shadow: 0 12px 40px rgba(168,85,247,.22);
+  }
   .product-thumb {
-    height: 168px;
+    width: 100%; aspect-ratio: 1 / 1; overflow: hidden;
     background: linear-gradient(135deg, rgba(168,85,247,.1), rgba(6,182,212,.07));
-    display: flex; align-items: center; justify-content: center; font-size: 54px;
-    border-bottom: .5px solid rgba(168,85,247,.12);
+    position: relative;
   }
-  .product-info { padding: 18px; }
+  .product-thumb img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .5s ease;
+    display: block;
+  }
+  .product-card:hover .product-thumb img { transform: scale(1.06); }
+  .product-thumb-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 54px; color: rgba(168,85,247,.4);
+  }
+  .product-info { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
   .product-name {
     font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700;
-    letter-spacing: .05em; color: #fff; margin-bottom: 7px;
+    letter-spacing: .04em; color: #fff; line-height: 1.4;
   }
-  .product-desc { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.55; }
-  .btn-order {
-    display: flex; align-items: center; gap: 7px; justify-content: center; width: 100%;
-    background: rgba(37,211,102,.12); border: .5px solid rgba(37,211,102,.4);
-    color: #25d366; padding: 9px; border-radius: 8px;
-    font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700;
-    letter-spacing: .08em; text-transform: uppercase; text-decoration: none; transition: all .25s;
+  .product-price {
+    font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700;
+    color: var(--cyan); margin-top: auto; padding-top: 6px;
   }
-  .btn-order:hover { background: rgba(37,211,102,.22); box-shadow: 0 0 16px rgba(37,211,102,.28); }
+  .product-card-cta {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    margin: 0 16px 16px; padding: 9px;
+    background: rgba(37,211,102,.1); border: .5px solid rgba(37,211,102,.35);
+    color: #25d366; border-radius: 8px;
+    font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    transition: all .25s;
+  }
+  .product-card-cta:hover { background: rgba(37,211,102,.22); box-shadow: 0 0 14px rgba(37,211,102,.28); }
 
   /* ═══════════════════════════════
-     FLOATING WHATSAPP
+     PRODUCT MODAL (carousel + detail)
   ═══════════════════════════════ */
-  .whatsapp-float {
-    position: fixed; bottom: 28px; right: 28px; z-index: 999;
-    width: 56px; height: 56px; background: #25d366; border-radius: 50%;
+  #product-modal {
+    display: none; position: fixed; inset: 0; z-index: 500;
+    background: rgba(6,6,13,.92);
+    backdrop-filter: blur(14px);
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  #product-modal.open { display: flex; animation: modalIn .35s cubic-bezier(.16,1,.3,1); }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(.94); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .modal-box {
+    background: #0d0d1a; border: .5px solid rgba(168,85,247,.3);
+    border-radius: 20px; overflow: hidden;
+    width: 100%; max-width: 900px; max-height: 90vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px; z-index: 10;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,.08); border: .5px solid rgba(255,255,255,.18);
+    color: #fff; font-size: 18px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    font-size: 26px; text-decoration: none;
-    box-shadow: 0 4px 20px rgba(37,211,102,.5); animation: wafloat 3s ease-in-out infinite;
-    transition: transform .3s, box-shadow .3s;
+    transition: background .2s;
   }
-  .whatsapp-float:hover { transform: scale(1.12); box-shadow: 0 8px 32px rgba(37,211,102,.75); animation: none; }
-  @keyframes wafloat {
-    0%,100% { transform: translateY(0); }
-    50%      { transform: translateY(-7px); }
+  .modal-close:hover { background: rgba(255,255,255,.18); }
+
+  /* Carousel side */
+  .modal-carousel {
+    position: relative; background: #08081a;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; min-height: 340px;
+  }
+  .carousel-track {
+    display: flex; width: 100%; height: 100%;
+    transition: transform .45s cubic-bezier(.16,1,.3,1);
+  }
+  .carousel-slide {
+    flex: 0 0 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .carousel-slide img {
+    width: 100%; height: 100%; object-fit: contain;
+    max-height: 400px; padding: 16px;
+  }
+  .carousel-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(168,85,247,.2); border: .5px solid rgba(168,85,247,.4);
+    color: #fff; font-size: 16px; cursor: pointer; z-index: 5;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+  }
+  .carousel-btn:hover { background: rgba(168,85,247,.45); }
+  .carousel-btn.prev { left: 10px; }
+  .carousel-btn.next { right: 10px; }
+  .carousel-dots {
+    position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 6px;
+  }
+  .carousel-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(168,85,247,.35); cursor: pointer; transition: all .2s;
+  }
+  .carousel-dot.active { background: var(--purple); transform: scale(1.25); }
+
+  /* Info side */
+  .modal-info {
+    padding: 36px 32px; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 14px; max-height: 90vh;
+  }
+  .modal-cat-tag {
+    font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--purple); font-weight: 600;
+  }
+  .modal-name {
+    font-family: 'Orbitron', sans-serif; font-size: clamp(15px,2vw,22px);
+    font-weight: 700; color: #fff; line-height: 1.3;
+  }
+  .modal-price {
+    font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 700;
+    background: linear-gradient(90deg, var(--cyan), var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .modal-divider {
+    height: .5px; background: rgba(168,85,247,.2);
+  }
+  .modal-desc {
+    font-size: 15px; color: rgba(240,240,255,.65); line-height: 1.7;
+  }
+  .modal-details { display: flex; flex-direction: column; gap: 8px; }
+  .modal-detail-row {
+    display: flex; gap: 8px; font-size: 13px;
+    color: rgba(240,240,255,.5);
+  }
+  .modal-detail-row strong { color: rgba(240,240,255,.85); font-weight: 600; min-width: 80px; }
+  .btn-order-modal {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: auto; padding: 13px 20px;
+    background: linear-gradient(135deg, rgba(37,211,102,.18), rgba(37,211,102,.08));
+    border: .5px solid rgba(37,211,102,.5);
+    color: #25d366; border-radius: 10px; text-decoration: none;
+    font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    transition: all .25s;
+  }
+  .btn-order-modal:hover {
+    background: rgba(37,211,102,.28);
+    box-shadow: 0 0 24px rgba(37,211,102,.35);
   }
 
-  /* ═══════════════════════════════
-     REVEAL ANIMATION
-  ═══════════════════════════════ */
-  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  /* ═══════════════════════════════
-     RESPONSIVE
-  ═══════════════════════════════ */
+  @media(max-width:700px){
+    .modal-box { grid-template-columns: 1fr; max-height: 95vh; }
+    .modal-carousel { min-height: 240px; }
+    .modal-info { padding: 24px 20px; }
+  }
   @media(max-width:768px){
+    .catalog-page { padding: 76px 20px 60px; }
+    .catalog-grid { grid-template-columns: repeat(auto-fill,minmax(155px,1fr)); gap: 14px; }
+  }
+
+    @media(max-width:768px){
     #navbar { padding: 0 20px; }
     #nav-logo-img {width: 50%; height: 50%; object-fit: contain; border-radius: 6px;}
     .btn-wa-nav {width: 120px;}
@@ -479,6 +610,28 @@
     .footer-top { grid-template-columns: 1fr; }
     .hero-ctas { flex-direction: column; align-items: center; }
   }
+  /* ═══════════════════════════════
+     FLOATING WHATSAPP
+  ═══════════════════════════════ */
+  .whatsapp-float {
+    position: fixed; bottom: 28px; right: 28px; z-index: 999;
+    width: 56px; height: 56px; background: #25d366; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; text-decoration: none;
+    box-shadow: 0 4px 20px rgba(37,211,102,.5);
+    animation: wafloat 3s ease-in-out infinite;
+    transition: transform .3s, box-shadow .3s;
+  }
+  .whatsapp-float:hover {
+    transform: scale(1.12);
+    box-shadow: 0 8px 32px rgba(37,211,102,.75);
+    animation: none;
+  }
+  @keyframes wafloat {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-7px); }
+  }
+
 </style>
 </head>
 <body>
@@ -747,21 +900,16 @@
 </footer>
 
 <script>
+
 /* ── NAVBAR SCROLL ── */
 window.addEventListener('scroll', () => {
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  const navbar = document.getElementById('navbar');
+  if (window.scrollY > 200) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
 });
-
-window.addEventListener('scroll', () => {
-    const navbar = document.getElementById('navbar');
-
-    if (window.scrollY > 200) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
-
 
 /* ── HERO LOGO PARALLAX ON SCROLL ── */
 const heroLogo = document.getElementById('hero-logo');
@@ -782,75 +930,193 @@ document.querySelectorAll('.reveal').forEach((el, i) => {
   io.observe(el);
 });
 
-/* ── CATALOG DATA ── */
+/* ═══════════════════════════════════════════════════════════════
+   PRODUCTS DATABASE
+   ─────────────────────────────────────────────────────────────
+   Para cadastrar um produto, adicione um objeto na categoria:
+   {
+     name:    'Nome do Produto',
+     desc:    'Descrição completa do produto.',
+     price:   'R$ 49,90',                  // ou null para "Consulte"
+     images:  [                             // array de caminhos de imagem
+       'catalog/games/meu-produto/foto1.jpg',
+       'catalog/games/meu-produto/foto2.jpg',
+     ],
+     details: {                             // campos opcionais de ficha técnica
+       'Material':   'PLA',
+       'Dimensões':  '10 x 8 x 5 cm',
+       'Cores':      'Preto, roxo, branco',
+     }
+   }
+   ─────────────────────────────────────────────────────────────
+   Organização de pastas sugerida no repositório:
+     catalog/
+       games/
+         fantasma-nova-luz/
+           foto1.jpg, foto2.jpg, foto3.jpg
+       decoracao/
+         ...
+       chaveiros/
+         ...
+═══════════════════════════════════════════════════════════════ */
 const products = {
   games: [
-    {icon:'catalog/games/fantasma/fantasma1.png', name:'PORTA FANTASMA - NOVA LUZ DESTINY',    desc:'Réplica em miniatura com base decorativa. Alta fidelidade.'},
-    {icon:'🍄', name:'Cogumelo 1-UP',           desc:'Ícone clássico do Mario. Perfeito para decoração gamer.'},
-    {icon:'💎', name:'Diamante Minecraft',      desc:'Bloco de diamante fiel ao jogo. Acabamento especial.'},
-    {icon:'🎴', name:'Emblema de Guilda',       desc:'Personalize com a logo da sua guilda favorita.'},
-    {icon:'⚔️', name:'Arma de Personagem',     desc:'Sua arma favorita impressa com riqueza de detalhes.'},
-    {icon:'🏆', name:'Troféu Gamer',            desc:'Troféu personalizado para o melhor jogador da casa.'},
+    {
+      name:    'Porta Fantasma – Nova Luz (Destiny)',
+      desc:    'Réplica do Porta Fantasma de Destiny. Impresso em PLA de alta qualidade com acabamento detalhado. Perfeito para usar como peça decorativa no seu setup.',
+      price:   'R$ 179,90',
+      images:  [
+        'catalog/games/fantasma/fantasma1.png',
+        'catalog/games/fantasma/fantasma2.png',
+        'catalog/games/fantasma/fantasma3.JPEG',
+      ],
+      details: { 'Material': 'PLA', 'Dimensões': '12 x 12 x 12 cm', 'Cores': 'Branco, preto, prata e laranja.' }
+    },
+    {
+      name:    'Luar do falcão - Skin padrão',
+      desc:    '"Algumas armas são ferramentas. Outras são lendas." \r\n' +
+        'Oito tiros. Mas é o último que ecoa pela eternidade. \r\n A textura da empunhadura e o design \r\n' +
+        'impecável do tambor foram recriados para que você sinta a mesma adrenalina de quando a \r\n' +
+        'barra de Carga Paracausal atinge o máximo.\r\n Nós sabemos que a experiência de Destiny vive \r\n' +
+        'nos momentos de tensão, e é por isso que a Rare Drop garante que a sensação tátil desta \r\n' +
+        'réplica seja tão imersiva quanto o jogo.  \r\n Sinta o equilíbrio perfeito. \r\n' + 
+        'A última bala está pronta.  \r\n O alvo é seu.',
+      price:   'R$ 364,90',
+      images:  [
+        'catalog/games/hawkmoon/luar1.png',
+        'catalog/games/hawkmoon/luar2.png',
+        'catalog/games/hawkmoon/luar3.png',
+      ],
+      details: { 'Material': 'PLA', 'Dimensões': '~8 x 8 cm' }
+    },
+    {
+      name:    'Diamante Minecraft',
+      desc:    'Bloco de diamante fiel ao jogo com acabamento especial. Um must-have para fãs de Minecraft.',
+      price:   'R$ 29,90',
+      images:  [],
+      details: { 'Material': 'PLA', 'Dimensões': '~6 x 6 x 6 cm' }
+    },
   ],
   decoracao: [
-    {icon:'🌙', name:'Luminária Lua',           desc:'Luminária decorativa em formato de lua crescente.'},
-    {icon:'🐉', name:'Dragão Prateleira',       desc:'Dragão articulado para compor sua prateleira geek.'},
-    {icon:'🚀', name:'Foguete Decorativo',      desc:'Foguete retrô sci-fi para mesa ou escritório.'},
-    {icon:'🌲', name:'Terrário Geométrico',     desc:'Base geométrica para terrário ou suculenta.'},
-    {icon:'🧩', name:'Organizador Modular',     desc:'Sistema de organização personalizável para mesa.'},
-    {icon:'⭐', name:'Constelação Wall Art',    desc:'Arte de parede com constelações em relevo.'},
+    {
+      name:    'Luminária Lua Crescente',
+      desc:    'Luminária decorativa em formato de lua crescente. Aceita fita LED ou lâmpada E14. Perfeita para quartos e escritórios geek.',
+      price:   'R$ 79,90',
+      images:  [],
+      details: { 'Material': 'PLA', 'Altura': '~25 cm' }
+    },
+    {
+      name:    'Dragão Prateleira',
+      desc:    'Dragão articulado para compor sua prateleira geek. Peça articulada, impressa em flexi-PLA.',
+      price:   'R$ 59,90',
+      images:  [],
+      details: { 'Material': 'Flexi-PLA', 'Comprimento': '~30 cm' }
+    },
   ],
   personalizados: [
-    {icon:'✏️', name:'Do Seu Arquivo STL',      desc:'Manda o arquivo e imprimimos exatamente como você projeta.'},
-    {icon:'📸', name:'A Partir de Foto',        desc:'Criamos um modelo 3D a partir de uma foto ou referência.'},
-    {icon:'🏷️', name:'Placas e Nomes',         desc:'Placa com seu nome, gamertag ou frase favorita.'},
-    {icon:'💍', name:'Itens Wearable',          desc:'Acessórios, anéis, colares e peças para cosplay.'},
-    {icon:'🏢', name:'Projetos Corporativos',   desc:'Brindes, troféus e peças institucionais sob demanda.'},
-    {icon:'❓', name:'Tem uma Ideia?',           desc:'Fale com a gente no WhatsApp e vamos virar realidade!'},
+    {
+      name:    'Projeto do Seu Arquivo STL',
+      desc:    'Manda o arquivo STL e imprimimos exatamente como você projeta. Consulte sobre material, cor e tamanho.',
+      price:   null,
+      images:  [],
+      details: { 'Prazo': 'A combinar', 'Material': 'A escolher' }
+    },
+    {
+      name:    'A Partir de Foto ou Referência',
+      desc:    'Criamos um modelo 3D a partir de uma foto, referência ou esboço e imprimimos pra você.',
+      price:   null,
+      images:  [],
+      details: { 'Prazo': 'A combinar' }
+    },
   ],
   chaveiros: [
-    {icon:'🧡', name:'Chaveiro Kunai',          desc:'Réplica da kunai do Naruto. Material PLA resistente.'},
-    {icon:'🔵', name:'Chaveiro Pokébola',       desc:'Pokébola articulada em dois tons. Clássico infalível.'},
-    {icon:'⚡', name:'Chaveiro Pikachu',        desc:'Silhueta do Pikachu em impressão de alta definição.'},
-    {icon:'🟡', name:'Chaveiro Pac-Man',        desc:'Pac-Man e fantasma no mesmo chaveiro.'},
-    {icon:'❤️', name:'Chaveiro Pixel Heart',   desc:'Coração em pixel art 3D. Presente perfeito.'},
-    {icon:'🎯', name:'Chaveiro Personalizado',  desc:'Qualquer símbolo ou logo que você queira.'},
+    {
+      name:    'Chaveiro Kunai – Naruto',
+      desc:    'Réplica da kunai do Naruto em miniatura. Material PLA resistente com argola metálica inclusa.',
+      price:   'R$ 14,90',
+      images:  [],
+      details: { 'Material': 'PLA', 'Comprimento': '~7 cm' }
+    },
+    {
+      name:    'Chaveiro Pokébola',
+      desc:    'Pokébola articulada em dois tons que abre e fecha. Clássico e infalível.',
+      price:   'R$ 16,90',
+      images:  [],
+      details: { 'Material': 'PLA bicolor', 'Diâmetro': '~4 cm' }
+    },
   ],
   brinquedos: [
-    {icon:'🤖', name:'Robô Articulado',         desc:'Robozinho com 6 pontos de articulação para poses variadas.'},
-    {icon:'🦕', name:'Dino Articulado',         desc:'Impressão flexi-print, peça única articulada.'},
-    {icon:'🐙', name:'Polvo Flexi',             desc:'Tentáculos articulados em uma única impressão.'},
-    {icon:'🦁', name:'Leão Mini',               desc:'Leão em miniatura para colecionar ou presentear.'},
-    {icon:'🚗', name:'Carrinho Clássico',       desc:'Carrinho retrô funcional com rodas que giram.'},
-    {icon:'🎠', name:'Fidget Spinner 3D',       desc:'Spinner personalizado. Equilibrado e suave.'},
+    {
+      name:    'Robô Articulado',
+      desc:    'Robozinho com 6 pontos de articulação para poses variadas. Impressão de alta precisão.',
+      price:   'R$ 44,90',
+      images:  [],
+      details: { 'Material': 'PLA', 'Altura': '~15 cm' }
+    },
+    {
+      name:    'Dinossauro Articulado (Flexi)',
+      desc:    'Impressão flexi-print em peça única articulada. Sem parafusos, sem montagem.',
+      price:   'R$ 39,90',
+      images:  [],
+      details: { 'Material': 'Flexi-PLA', 'Comprimento': '~20 cm' }
+    },
   ],
   canecas: [
-    {icon: '&#129380;', name: 'Teste', desc: 'teste desc'}
-  ]
+    {
+      name:    'Porta-Lata Temático',
+      desc:    'Porta-lata impresso em 3D com temática geek à sua escolha. Lata 350ml. Personalize o tema!',
+      price:   'R$ 24,90',
+      images:  [],
+      details: { 'Material': 'PLA', 'Compatível': 'Lata 350ml' }
+    },
+  ],
 };
 
-const WA_BASE = 'https://wa.me/5541987048120?text=Olá+Rare+Drop!+Quero+encomendar+o+produto+';
+/* ─── WhatsApp number ─── */
+const WA_NUMBER = '5541987048120';
+const WA_BASE   = `https://wa.me/${WA_NUMBER}?text=`;
 
+/* ─── Build catalog grid ─── */
 function buildGrid(cat) {
   const grid = document.getElementById('grid-' + cat);
-  if (grid.innerHTML !== '') return;
-  products[cat].forEach(p => {
-    const div = document.createElement('div');
-    div.className = 'product-card';
-    div.innerHTML =
-      '<div class="product-thumb">' + p.icon + '</div>' +
-      //'<div class="product-thumb">' + '<img src="' + p.icon + ' "> + </div>'
-      '<div class="product-info">' +
-        '<div class="product-name">' + p.name + '</div>' +
-        '<p class="product-desc">'  + p.desc + '</p>' +
-        '<a class="btn-order" href="' + WA_BASE + encodeURIComponent(p.name) + '" target="_blank" rel="noopener">' +
-          '💬 Pedir no WhatsApp' +
-        '</a>' +
-      '</div>';
-    grid.appendChild(div);
+  if (grid.dataset.built) return;
+  grid.dataset.built = '1';
+
+  products[cat].forEach((p, idx) => {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.onclick = () => openModal(cat, idx);
+
+    const hasImg = p.images && p.images.length > 0;
+    const thumbHtml = hasImg
+      ? `<div class="product-thumb"><img src="${p.images[0]}" alt="${p.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\"product-thumb-placeholder\">📦</div></div>`
+      : `<div class="product-thumb"><div class="product-thumb-placeholder">📦</div></div>`;
+
+    const priceHtml = p.price
+      ? `<div class="product-price">${p.price}</div>`
+      : `<div class="product-price" style="color:var(--muted);font-size:11px;letter-spacing:.1em;">CONSULTE</div>`;
+
+    card.innerHTML = `
+      ${thumbHtml}
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        ${priceHtml}
+      </div>
+      <div class="product-card-cta">💬 Pedir no WhatsApp</div>
+    `;
+
+    // WhatsApp click on CTA (without opening modal)
+    card.querySelector('.product-card-cta').addEventListener('click', (e) => {
+      e.stopPropagation();
+      const msg = encodeURIComponent(`Olá Rare Drop! Quero encomendar: ${p.name}${p.price ? ' — ' + p.price : ''}`);
+      window.open(WA_BASE + msg, '_blank', 'noopener');
+    });
+
+    grid.appendChild(card);
   });
 }
 
+/* ─── Open / close catalog overlay ─── */
 function openCatalog(cat) {
   buildGrid(cat);
   document.querySelectorAll('.catalog-page').forEach(p => p.classList.remove('active'));
@@ -862,7 +1128,128 @@ function closeCatalog() {
   document.querySelectorAll('.catalog-page').forEach(p => p.classList.remove('active'));
   document.body.style.overflow = '';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCatalog(); });
+
+/* ─── Product modal with carousel ─── */
+let _carouselIdx = 0;
+let _carouselImages = [];
+
+function openModal(cat, idx) {
+  const p = products[cat][idx];
+  const modal = document.getElementById('product-modal');
+
+  _carouselImages = (p.images && p.images.length) ? p.images : [];
+  _carouselIdx = 0;
+
+  /* Carousel */
+  const track = document.getElementById('modal-carousel-track');
+  const dots   = document.getElementById('modal-dots');
+  track.innerHTML = '';
+  dots.innerHTML  = '';
+
+  if (_carouselImages.length === 0) {
+    track.innerHTML = `<div class="carousel-slide"><div style="font-size:72px;opacity:.3;">📦</div></div>`;
+    document.querySelector('.carousel-btn.prev').style.display = 'none';
+    document.querySelector('.carousel-btn.next').style.display = 'none';
+  } else {
+    document.querySelector('.carousel-btn.prev').style.display = '';
+    document.querySelector('.carousel-btn.next').style.display = '';
+    _carouselImages.forEach((src, i) => {
+      const slide = document.createElement('div');
+      slide.className = 'carousel-slide';
+      slide.innerHTML = `<img src="${src}" alt="${p.name} foto ${i+1}" loading="lazy">`;
+      track.appendChild(slide);
+
+      const dot = document.createElement('div');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.onclick = () => goSlide(i);
+      dots.appendChild(dot);
+    });
+    updateCarousel();
+  }
+
+  /* Info */
+  document.getElementById('modal-cat-tag').textContent = cat.toUpperCase();
+  document.getElementById('modal-name').textContent    = p.name;
+  document.getElementById('modal-price').textContent   = p.price || 'Consulte';
+  document.getElementById('modal-desc').textContent    = p.desc;
+
+  const detailsEl = document.getElementById('modal-details');
+  detailsEl.innerHTML = '';
+  if (p.details) {
+    Object.entries(p.details).forEach(([k, v]) => {
+      detailsEl.innerHTML += `<div class="modal-detail-row"><strong>${k}</strong><span>${v}</span></div>`;
+    });
+  }
+
+  const waMsg = encodeURIComponent(`Olá Rare Drop! Quero encomendar: ${p.name}${p.price ? ' — ' + p.price : ''}`);
+  document.getElementById('modal-wa-btn').href = WA_BASE + waMsg;
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('product-modal').classList.remove('open');
+  // Restore scroll based on whether catalog is open
+  const catOpen = document.querySelector('.catalog-page.active');
+  if (!catOpen) document.body.style.overflow = '';
+}
+
+function goSlide(n) {
+  _carouselIdx = (n + _carouselImages.length) % _carouselImages.length;
+  updateCarousel();
+}
+function updateCarousel() {
+  document.getElementById('modal-carousel-track').style.transform = `translateX(-${_carouselIdx * 100}%)`;
+  document.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === _carouselIdx));
+}
+
+/* Keyboard navigation */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (document.getElementById('product-modal').classList.contains('open')) { closeModal(); return; }
+    closeCatalog();
+  }
+  if (document.getElementById('product-modal').classList.contains('open')) {
+    if (e.key === 'ArrowLeft')  goSlide(_carouselIdx - 1);
+    if (e.key === 'ArrowRight') goSlide(_carouselIdx + 1);
+  }
+});
+
+/* Close modal on backdrop click */
+document.getElementById('product-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
 </script>
+
+<!-- ══════════ PRODUCT MODAL ══════════ -->
+<div id="product-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <!-- Carousel -->
+    <div class="modal-carousel">
+      <div class="carousel-track" id="modal-carousel-track"></div>
+      <button class="carousel-btn prev" onclick="goSlide(_carouselIdx - 1)">‹</button>
+      <button class="carousel-btn next" onclick="goSlide(_carouselIdx + 1)">›</button>
+      <div class="carousel-dots" id="modal-dots"></div>
+    </div>
+
+    <!-- Info -->
+    <div class="modal-info">
+      <div class="modal-cat-tag" id="modal-cat-tag"></div>
+      <div class="modal-name"    id="modal-name"></div>
+      <div class="modal-price"   id="modal-price"></div>
+      <div class="modal-divider"></div>
+      <p   class="modal-desc"    id="modal-desc"></p>
+      <div class="modal-details" id="modal-details"></div>
+      <a   class="btn-order-modal" id="modal-wa-btn" href="#" target="_blank" rel="noopener">
+        💬 Pedir no WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

@@ -785,7 +785,7 @@ document.querySelectorAll('.reveal').forEach((el, i) => {
 /* ── CATALOG DATA ── */
 const products = {
   games: [
-    {icon:'🗡️', name:'Espada Master Sword',    desc:'Réplica em miniatura com base decorativa. Alta fidelidade.'},
+    {icon:'catalog/games/fantasma/fantasma1.png', name:'PORTA FANTASMA - NOVA LUZ DESTINY',    desc:'Réplica em miniatura com base decorativa. Alta fidelidade.'},
     {icon:'🍄', name:'Cogumelo 1-UP',           desc:'Ícone clássico do Mario. Perfeito para decoração gamer.'},
     {icon:'💎', name:'Diamante Minecraft',      desc:'Bloco de diamante fiel ao jogo. Acabamento especial.'},
     {icon:'🎴', name:'Emblema de Guilda',       desc:'Personalize com a logo da sua guilda favorita.'},
@@ -838,7 +838,8 @@ function buildGrid(cat) {
     const div = document.createElement('div');
     div.className = 'product-card';
     div.innerHTML =
-      '<div class="product-thumb">' + p.icon + '</div>' +
+      //'<div class="product-thumb">' + p.icon + '</div>' +
+      '<div class="product-thumb">' + '<img src="' + p.icon + ' "> + </div>'
       '<div class="product-info">' +
         '<div class="product-name">' + p.name + '</div>' +
         '<p class="product-desc">'  + p.desc + '</p>' +

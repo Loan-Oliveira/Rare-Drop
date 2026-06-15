@@ -1656,16 +1656,42 @@ window.addEventListener('resize', function() {
 (function() {
   var vp = document.getElementById('hl-outer');
   if (!vp) return;
-  var startX = 0, dragging = false;
-  vp.addEventListener('pointerdown', function(e) {
-    startX = e.clientX; dragging = true;
+  var startX = 0, startY = 0, active = false;
+
+  /* ── Touch (iOS Safari, Android) ── */
+  vp.addEventListener('touchstart', function(e) {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    active = true;
+  }, { passive: true });
+
+  vp.addEventListener('touchmove', function(e) {
+    if (!active) return;
+    var dx = e.touches[0].clientX - startX;
+    var dy = e.touches[0].clientY - startY;
+    /* se o movimento for mais horizontal que vertical, bloqueia scroll da página */
+    if (Math.abs(dx) > Math.abs(dy)) e.preventDefault();
+  }, { passive: false });
+
+  vp.addEventListener('touchend', function(e) {
+    if (!active) return;
+    active = false;
+    var dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) hlMove(dx < 0 ? 1 : -1);
   });
-  vp.addEventListener('pointerup', function(e) {
-    if (!dragging) return; dragging = false;
+
+  vp.addEventListener('touchcancel', function() { active = false; });
+
+  /* ── Mouse (desktop) ── */
+  vp.addEventListener('mousedown', function(e) {
+    startX = e.clientX; active = true;
+  });
+  vp.addEventListener('mouseup', function(e) {
+    if (!active) return; active = false;
     var dx = e.clientX - startX;
     if (Math.abs(dx) > 40) hlMove(dx < 0 ? 1 : -1);
   });
-  vp.addEventListener('pointercancel', function() { dragging = false; });
+  vp.addEventListener('mouseleave', function() { active = false; });
 })();
 
 

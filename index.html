@@ -646,6 +646,179 @@
     50%      { transform: translateY(-7px); }
   }
 
+
+  /* ═══════════════════════════════
+     HIGHLIGHTS CAROUSEL
+  ═══════════════════════════════ */
+  #highlights {
+    position: relative;
+    padding: 80px 0 90px;
+    background:
+      radial-gradient(ellipse 90% 60% at 50% 100%, rgba(255,107,157,.08) 0%, transparent 65%),
+      radial-gradient(ellipse 60% 50% at 10%  50%, rgba(168,85,247,.07) 0%, transparent 55%),
+      linear-gradient(180deg, #06060d 0%, #0e0818 50%, #06060d 100%);
+    overflow: hidden;
+  }
+  .hl-header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding: 0 40px;
+  }
+  .hl-header .section-label { justify-content: center; }
+  .hl-header .section-label::before { display: none; }
+
+  /* Track wrapper */
+  .hl-viewport {
+    position: relative;
+    overflow: hidden;
+    /* peek: show edges of adjacent slides */
+    padding: 0 clamp(24px, 6vw, 120px);
+  }
+  .hl-track {
+    display: flex;
+    gap: 24px;
+    transition: transform .65s cubic-bezier(.16,1,.3,1);
+    will-change: transform;
+  }
+
+  /* Each slide */
+  .hl-slide {
+    flex: 0 0 clamp(280px, 72vw, 860px);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    background: #0d0d1a;
+    border: .5px solid rgba(168,85,247,.2);
+    box-shadow: 0 8px 48px rgba(0,0,0,.55);
+    transition: transform .45s cubic-bezier(.16,1,.3,1),
+                box-shadow .45s,
+                border-color .45s,
+                opacity .45s;
+    cursor: pointer;
+    user-select: none;
+  }
+  .hl-slide.is-active {
+    border-color: rgba(168,85,247,.5);
+    box-shadow: 0 16px 64px rgba(168,85,247,.22), 0 0 0 1px rgba(168,85,247,.12);
+  }
+  .hl-slide:not(.is-active) {
+    opacity: .55;
+    transform: scale(.94);
+  }
+
+  /* Media area */
+  .hl-media {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    position: relative;
+    overflow: hidden;
+    background: #08081a;
+  }
+  .hl-media img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .6s ease;
+  }
+  .hl-slide.is-active .hl-media img { transform: scale(1.03); }
+  .hl-media video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* play icon overlay for video */
+  .hl-play-icon {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(6,6,13,.38);
+    transition: background .3s;
+  }
+  .hl-play-icon svg {
+    width: 60px; height: 60px;
+    filter: drop-shadow(0 0 12px rgba(168,85,247,.7));
+    transition: transform .3s;
+  }
+  .hl-slide.is-active .hl-play-icon:hover { background: rgba(6,6,13,.18); }
+  .hl-slide.is-active .hl-play-icon:hover svg { transform: scale(1.12); }
+  /* hide play overlay when video is playing */
+  .hl-media.playing .hl-play-icon { opacity: 0; pointer-events: none; }
+
+  /* badge top-left */
+  .hl-badge {
+    position: absolute; top: 14px; left: 14px; z-index: 2;
+    font-size: 10px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700;
+    padding: 4px 10px; border-radius: 20px;
+    backdrop-filter: blur(8px);
+  }
+  .hl-badge.new     { background: rgba(255,107,157,.2); border: .5px solid rgba(255,107,157,.5); color: var(--pink); }
+  .hl-badge.promo   { background: rgba(251,191,36,.18); border: .5px solid rgba(251,191,36,.5);  color: #fbbf24; }
+  .hl-badge.video   { background: rgba(6,182,212,.18);  border: .5px solid rgba(6,182,212,.5);   color: var(--cyan); }
+  .hl-badge.limited { background: rgba(168,85,247,.18); border: .5px solid rgba(168,85,247,.5);  color: var(--purple); }
+
+  /* info strip */
+  .hl-info {
+    padding: 22px 26px 24px;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  }
+  .hl-info-left { flex: 1; }
+  .hl-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(13px,2vw,18px); font-weight: 700; letter-spacing: .03em;
+    color: #fff; margin-bottom: 6px; line-height: 1.3;
+  }
+  .hl-sub {
+    font-size: 13px; color: var(--muted); line-height: 1.5;
+  }
+  .hl-price {
+    font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; white-space: nowrap;
+    background: linear-gradient(90deg, var(--cyan), var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+
+  /* gradient edges (peek fade) */
+  .hl-viewport::before,
+  .hl-viewport::after {
+    content: ''; position: absolute; top: 0; bottom: 0; width: clamp(20px,5vw,80px);
+    z-index: 2; pointer-events: none;
+  }
+  .hl-viewport::before { left: 0;  background: linear-gradient(to right, #06060d, transparent); }
+  .hl-viewport::after  { right: 0; background: linear-gradient(to left,  #06060d, transparent); }
+
+  /* nav arrows */
+  .hl-arrows {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; margin-top: 36px; padding: 0 40px;
+  }
+  .hl-arrow {
+    width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+    background: rgba(168,85,247,.1); border: .5px solid rgba(168,85,247,.35);
+    color: #fff; font-size: 20px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .25s ease;
+  }
+  .hl-arrow:hover { background: rgba(168,85,247,.3); border-color: rgba(168,85,247,.7); transform: scale(1.08); }
+  .hl-arrow:disabled { opacity: .25; pointer-events: none; }
+
+  /* dots */
+  .hl-dots {
+    display: flex; align-items: center; gap: 8px; flex: 1; justify-content: center;
+  }
+  .hl-dot {
+    height: 4px; border-radius: 2px; cursor: pointer;
+    background: rgba(168,85,247,.3);
+    transition: all .35s ease;
+    width: 20px;
+  }
+  .hl-dot.active { background: var(--purple); width: 36px; }
+
+  @media(max-width:768px){
+    #highlights { padding: 60px 0 70px; }
+    .hl-viewport { padding: 0 16px; }
+    .hl-slide { flex: 0 0 88vw; }
+    .hl-info { padding: 16px 18px 18px; flex-direction: column; gap: 8px; }
+    .hl-arrows { margin-top: 24px; }
+  }
+
 </style>
 </head>
 <body>
@@ -702,6 +875,41 @@
   </div>
 
   <div class="scroll-hint">scroll</div>
+</section>
+
+
+<!-- ══════════ HIGHLIGHTS CAROUSEL ══════════ -->
+<!--
+  COMO CADASTRAR DESTAQUES:
+  Edite o array `highlights` no JS abaixo do carrossel.
+  Cada item aceita:
+    title   : título do card
+    sub     : subtítulo / descrição curta
+    price   : preço (string) ou null
+    badge   : 'new' | 'promo' | 'video' | 'limited' | null
+    type    : 'image' | 'video'
+    src     : caminho da imagem ou vídeo (ex: 'catalog/games/foto.jpg')
+    cat     : categoria para abrir ao clicar (opcional)
+    idx     : índice do produto na categoria (opcional)
+-->
+<section id="highlights">
+  <div class="hl-header">
+    <p class="section-label" style="color:var(--pink);">Destaques</p>
+    <h2 class="section-title">Em Alta na Rare Drop</h2>
+    <p class="section-sub" style="margin:0 auto;text-align:center;">Lançamentos, promoções e vídeos exclusivos.</p>
+  </div>
+
+  <div class="hl-viewport" id="hl-viewport">
+    <div class="hl-track" id="hl-track">
+      <!-- slides rendered by JS -->
+    </div>
+  </div>
+
+  <div class="hl-arrows">
+    <button class="hl-arrow" id="hl-prev" onclick="hlMove(-1)">&#8592;</button>
+    <div class="hl-dots" id="hl-dots"></div>
+    <button class="hl-arrow" id="hl-next" onclick="hlMove(1)">&#8594;</button>
+  </div>
 </section>
 
 <!-- ══════════ CATEGORIES ══════════ -->
@@ -1238,6 +1446,198 @@ document.addEventListener('keydown', e => {
 document.getElementById('product-modal').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   HIGHLIGHTS CAROUSEL
+   ─────────────────────────────────────────────────────────────
+   Edite este array para configurar os destaques.
+   type: 'image' → mostra foto | 'video' → player de vídeo inline
+   badge: 'new' | 'promo' | 'video' | 'limited' | null
+   cat + idx: se informados, clicar no card abre o produto direto
+═══════════════════════════════════════════════════════════════ */
+const highlights = [
+  {
+    title:  'Porta Fantasma – Destiny',
+    sub:    'Nosso produto mais pedido. Impresso em PLA com acabamento premium.',
+    price:  'R$ 89,90',
+    badge:  'new',
+    type:   'image',
+    src:    'catalog/games/fantasma/fantasma1.png',
+    cat:    'games', idx: 0
+  },
+  {
+    title:  'Vídeo: Como imprimimos seus produtos',
+    sub:    'Veja o processo completo de impressão 3D do nosso estúdio.',
+    price:  null,
+    badge:  'video',
+    type:   'video',
+    src:    'https://www.w3schools.com/html/mov_bbb.mp4',
+  },
+  {
+    title:  'Dinossauro Articulado Flexi',
+    sub:    'Peça única, sem montagem. Basta imprimir e já é articulado!',
+    price:  'R$ 39,90',
+    badge:  'promo',
+    type:   'image',
+    src:    '',
+    cat:    'brinquedos', idx: 1
+  },
+  {
+    title:  'Chaveiro Pokébola',
+    sub:    'Clássico infalível. Disponível em todas as cores do anime.',
+    price:  'R$ 16,90',
+    badge:  'limited',
+    type:   'image',
+    src:    '',
+    cat:    'chaveiros', idx: 1
+  },
+];
+
+/* ── Build slides ── */
+(function buildHighlights() {
+  const track = document.getElementById('hl-track');
+  const dots  = document.getElementById('hl-dots');
+
+  highlights.forEach((h, i) => {
+    /* slide */
+    const slide = document.createElement('div');
+    slide.className = 'hl-slide' + (i === 0 ? ' is-active' : '');
+    slide.dataset.idx = i;
+
+    /* badge */
+    const badgeHtml = h.badge
+      ? `<div class="hl-badge ${h.badge}">${h.badge === 'new' ? '✦ Novo' : h.badge === 'promo' ? '🔥 Promo' : h.badge === 'video' ? '▶ Vídeo' : '⚡ Limitado'}</div>`
+      : '';
+
+    /* media */
+    let mediaInner = '';
+    if (h.type === 'video') {
+      mediaInner = `
+        <video id="hl-video-${i}" src="${h.src}" loop muted playsinline preload="none"
+               style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+        <div class="hl-play-icon" id="hl-play-${i}">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="40" r="39" stroke="rgba(168,85,247,0.6)" stroke-width="1"/>
+            <path d="M32 26l22 14-22 14V26z" fill="white"/>
+          </svg>
+        </div>`;
+    } else {
+      const imgSrc = h.src || '';
+      const imgTag = imgSrc
+        ? `<img src="${imgSrc}" alt="${h.title}" loading="lazy"
+               onerror="this.parentElement.innerHTML='<div style=\"width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;opacity:.25;\">📦</div>'">`
+        : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:64px;opacity:.2;">📦</div>`;
+      mediaInner = imgTag;
+    }
+
+    /* price */
+    const priceHtml = h.price ? `<div class="hl-price">${h.price}</div>` : '';
+
+    slide.innerHTML = `
+      <div class="hl-media" id="hl-media-${i}">
+        ${badgeHtml}
+        ${mediaInner}
+      </div>
+      <div class="hl-info">
+        <div class="hl-info-left">
+          <div class="hl-title">${h.title}</div>
+          <div class="hl-sub">${h.sub}</div>
+        </div>
+        ${priceHtml}
+      </div>`;
+
+    /* click: video toggle or open product */
+    slide.addEventListener('click', () => {
+      if (_hlIdx !== i) { hlGoTo(i); return; }
+      if (h.type === 'video') {
+        const vid   = document.getElementById('hl-video-' + i);
+        const media = document.getElementById('hl-media-' + i);
+        if (vid.paused) { vid.play(); media.classList.add('playing'); }
+        else            { vid.pause(); media.classList.remove('playing'); }
+      } else if (h.cat !== undefined && h.idx !== undefined) {
+        openCatalog(h.cat);
+        setTimeout(() => openModal(h.cat, h.idx), 80);
+      }
+    });
+
+    track.appendChild(slide);
+
+    /* dot */
+    const dot = document.createElement('div');
+    dot.className = 'hl-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => hlGoTo(i);
+    dots.appendChild(dot);
+  });
+
+  hlUpdateLayout();
+})();
+
+let _hlIdx = 0;
+let _hlAutoplay = null;
+
+function hlGoTo(n) {
+  /* pause any playing video */
+  const prevH = highlights[_hlIdx];
+  if (prevH && prevH.type === 'video') {
+    const vid = document.getElementById('hl-video-' + _hlIdx);
+    const med = document.getElementById('hl-media-' + _hlIdx);
+    if (vid) { vid.pause(); med && med.classList.remove('playing'); }
+  }
+
+  _hlIdx = (n + highlights.length) % highlights.length;
+
+  document.querySelectorAll('.hl-slide').forEach((s, i) => {
+    s.classList.toggle('is-active', i === _hlIdx);
+  });
+  document.querySelectorAll('.hl-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === _hlIdx);
+  });
+
+  hlUpdateLayout();
+  hlResetAutoplay();
+}
+
+function hlMove(dir) { hlGoTo(_hlIdx + dir); }
+
+function hlUpdateLayout() {
+  const track    = document.getElementById('hl-track');
+  const viewport = document.getElementById('hl-viewport');
+  const slides   = document.querySelectorAll('.hl-slide');
+  if (!slides.length) return;
+
+  const slideW = slides[0].offsetWidth;
+  const gap    = 24;
+  const vw     = viewport.offsetWidth;
+  const pad    = parseFloat(getComputedStyle(viewport).paddingLeft) || 0;
+
+  /* center active slide within the padded viewport */
+  const offset = pad + _hlIdx * (slideW + gap) - (vw - 2 * pad - slideW) / 2;
+  track.style.transform = `translateX(${-Math.max(0, offset)}px)`;
+}
+
+function hlResetAutoplay() {
+  clearInterval(_hlAutoplay);
+  _hlAutoplay = setInterval(() => hlMove(1), 5000);
+}
+
+hlResetAutoplay();
+window.addEventListener('resize', hlUpdateLayout);
+
+/* Touch/swipe support */
+(function() {
+  const vp = document.getElementById('hl-viewport');
+  let startX = 0, dragging = false;
+  vp.addEventListener('pointerdown', e => { startX = e.clientX; dragging = true; });
+  vp.addEventListener('pointermove', e => { if (!dragging) return; });
+  vp.addEventListener('pointerup',   e => {
+    if (!dragging) return; dragging = false;
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 40) hlMove(dx < 0 ? 1 : -1);
+  });
+  vp.addEventListener('pointercancel', () => { dragging = false; });
+})();
 
 </script>
 

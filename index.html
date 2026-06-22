@@ -1202,7 +1202,7 @@ const products = {
     {
       name:    'Porta Fantasma – Nova Luz (Destiny)',
       desc:    'Réplica do Porta Fantasma de Destiny. Impresso em PLA de alta qualidade com acabamento detalhado. Perfeito para usar como peça decorativa no seu setup.',
-      price:   'R$ 179,90',
+      price:   'R$ 159,90',
       images:  [
         'catalog/Games/Fantasma/Fantasma1.png',
         'catalog/Games/Fantasma/Fantasma2.png',
@@ -1272,6 +1272,32 @@ const products = {
         'catalog/Games/Faca/faca3.JPG'
       ],
       details: { 'Material': 'PLA', 'Dimensões': '~33 cm x 8 cm x 1 cm' }
+    },
+    {
+      name:    'Porta Fantasma - SIVA',
+      desc:    'Nem toda tecnologia da Era Dourada foi criada para proteger a humanidade.\r\n' +
+        'Algumas foram esquecidas.\r\n' +
+        'Outras deveriam ter permanecido enterradas.\r\n' +
+        'E então existe a SIVA.\r\n' +
+        'Nascida como uma maravilha da engenharia, capaz de construir cidades inteiras a partir de máquinas microscópicas, a SIVA rapidamente se tornou uma das forças mais perigosas já encontradas pelos Guardiões. Sua capacidade de evoluir, adaptar-se e consumir tudo ao seu redor transformou uma ferramenta de progresso em uma ameaça capaz de remodelar mundos.\r\n' +
+        'Este Porta-Fantasma inspirado na estética da SIVA captura exatamente essa dualidade.\r\n' +
+        'As linhas agressivas, os detalhes geométricos e a presença marcante dos elementos vermelhos remetem à corrupção tecnológica que tomou conta do Complexo Plaguelands e marcou alguns dos eventos mais memoráveis da história de Destiny.\r\n' +
+        'É uma peça feita para aqueles que enxergam beleza nos mistérios mais sombrios do universo.\r\n' +
+        'Para os Guardiões que enfrentaram a ameaça dos Senhores de Ferro caídos.\r\n' +
+        'Para aqueles que ouviram os ecos de uma era perdida enquanto exploravam estruturas consumidas pela tecnologia vermelha.\r\n' +
+        'E para os colecionadores que sabem reconhecer um dos visuais mais icônicos já criados na franquia.\r\n' +
+        'Posicione seu Fantasma em segurança enquanto exibe uma peça que parece ter sido recuperada diretamente das ruínas de uma instalação esquecida da Era Dourada.\r\n' +
+        'Um suporte para seu companheiro mais fiel.\r\n' +
+        'Uma relíquia de um poder que jamais deveria ter sido despertado.\r\n' +
+        '**Consumir. Aprimorar. Replicar.**',
+      price:   'R$ 199,00',
+      images:  [
+        'catalog/Games/Fantasma SIVA/siva1.png',
+        'catalog/Games/Fantasma SIVA/siva2.JPG',
+        'catalog/Games/Fantasma SIVA/siva3.JPG',
+        'catalog/Games/Fantasma SIVA/siva4.JPG',
+      ],
+      details: { 'Material': 'PLA', 'Dimensões': '~13 cm x 13 cm x 13 cm * Suporte: aproximadamente 10 cm' }
     },
   ],
   decoracao: [
@@ -1515,12 +1541,30 @@ document.addEventListener('DOMContentLoaded', function() {
    badge: 'new' | 'promo' | 'video' | 'limited' | null
    cat + idx: se informados, clicar no card abre o produto direto
 ═══════════════════════════════════════════════════════════════ */
-const highlights = [
+const highlights = [  
+  {
+    title:  'Porta Fantasma - SIVA',
+    sub:    'Direto da câmara de replicação',
+    price:  'R$ 199,00',
+    badge:  'new', //'limited'
+    type:   'image',
+    src:    'catalog/Games/Fantasma SIVA/siva1.png',
+    cat:    'games', idx: 4
+  },
+  {
+    title:  'Ás de espadas',
+    sub:    'A carta na manga de todo guardião.',
+    price:  'R$ 260,00',
+    badge:  'new', //'limited'
+    type:   'image',
+    src:    'catalog/Games/Ace/ace1.png',
+    cat:    'games', idx: 2
+  },
   {
     title:  'Porta Fantasma – Destiny',
     sub:    'Nosso produto mais pedido. Impresso em PLA com acabamento premium.',
-    price:  'R$ 179,90',
-    badge:  'new',
+    price:  'R$ 159,90',
+    badge:  'promo',
     type:   'image',
     src:    'catalog/Games/Fantasma/Fantasma1.png',
     cat:    'games', idx: 0
@@ -1541,15 +1585,6 @@ const highlights = [
     type:   'video', //'image'
     src:    'videos/unboxing/henio-fantasma.mp4',
     cat:    'brinquedos', idx: 1
-  },
-  {
-    title:  'Chaveiro Pokébola',
-    sub:    'Clássico infalível. Disponível em todas as cores do anime.',
-    price:  'R$ 16,90',
-    badge:  'limited',
-    type:   'image',
-    src:    '',
-    cat:    'chaveiros', idx: 1
   },
 ];
 
